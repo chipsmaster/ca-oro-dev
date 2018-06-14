@@ -1,0 +1,54 @@
+version: '3'
+
+services:
+  db:
+    build:
+      context: ./mysql
+    volumes:
+      - mysql:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: mysql
+    networks:
+      default:
+        aliases:
+          - mysql-db-host
+
+  php-fpm:
+    build:
+      context: ./php-fpm
+      args:
+        ORO_USER_ID: "${HOST_USER_ID:?err}"
+        ORO_USER_GROUP_ID: "${HOST_USER_GROUP_ID:?err}"
+    volumes:
+      - ./html:/usr/share/nginx/html
+      - web-composer-cache:/home/oro/.composer
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    networks:
+      default:
+        aliases:
+          - php-fpm-host
+
+  nginx:
+    build:
+      context: ./nginx
+      args:
+        ORO_USER_ID: "${HOST_USER_ID:?err}"
+        ORO_USER_GROUP_ID: "${HOST_USER_GROUP_ID:?err}"
+    volumes:
+      - ./html:/usr/share/nginx/html
+    ports:
+      - "${WEB_PUB_PORT?:err}:80"
+
+
+#  mail:
+#    image: mailhog/mailhog
+#    networks:
+#      default:
+#        aliases:
+#          - mailhog-host
+    
+
+volumes:
+  mysql:
+  web-composer-cache:
+

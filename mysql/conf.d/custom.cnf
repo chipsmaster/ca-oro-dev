@@ -1,0 +1,9 @@
+[mysqld]
+
+innodb_file_per_table = 0
+wait_timeout = 28800
+
+# Your conf goes here
+
+#general_log=ON
+
