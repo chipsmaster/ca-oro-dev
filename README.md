@@ -1,6 +1,7 @@
 # ca-oro-dev
 
 1. create .env from .env.sample
+1. add "127.0.1.1	ca-oro-dev.localhost" to /etc/hosts
 1. mkdir html
 1. docker-compose up
 1. docker-compose exec -u oro php-fpm bash
