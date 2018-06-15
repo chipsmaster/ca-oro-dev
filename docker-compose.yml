@@ -22,7 +22,6 @@ services:
     volumes:
       - ./html:/usr/share/nginx/html
       - web-composer-cache:/home/oro/.composer
-      - /sys/fs/cgroup:/sys/fs/cgroup:ro
     networks:
       default:
         aliases:

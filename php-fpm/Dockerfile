@@ -1,4 +1,4 @@
-FROM centos/systemd
+FROM centos:7
 ARG ORO_USER_ID
 ARG ORO_USER_GROUP_ID
 
@@ -13,8 +13,6 @@ RUN wget http://rpms.remirepo.net/enterprise/remi-release-7.rpm && rpm -Uvh remi
 
 RUN yum install -y php-fpm php-cli php-pdo php-mysqlnd php-xml php-soap php-gd php-mbstring php-zip php-intl php-mcrypt php-opcache php-pecl-xdebug
 
-RUN systemctl enable php-fpm
-
 RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" && php composer-setup.php \
 	&& php -r "unlink('composer-setup.php');" \
 	&& mv composer.phar /usr/bin/composer
@@ -23,7 +21,9 @@ RUN groupadd --gid $ORO_USER_GROUP_ID oro \
         && useradd --uid $ORO_USER_ID --gid $ORO_USER_GROUP_ID --create-home oro \
         && mkdir /home/oro/.composer && chown oro.oro /home/oro/.composer
 
-COPY additional-php.ini /etc/php.d/50-custom-additional.ini
-COPY www.conf /etc/php-fpm.d/
+RUN mkdir /run/php-fpm
 
-CMD [ "/usr/sbin/init" ]
+COPY www.conf /etc/php-fpm.d/
+COPY additional-php.ini /etc/php.d/50-custom-additional.ini
+
+CMD [ "/usr/sbin/php-fpm", "--nodaemonize" ]
