@@ -22,6 +22,8 @@ services:
     volumes:
       - ./html:/usr/share/nginx/html
       - web-composer-cache:/home/oro/.composer
+    ports:
+      - "${WEBSOCKET_PUB_PORT?:err}:8080"
     networks:
       default:
         aliases:
@@ -37,6 +39,8 @@ services:
       - ./html:/usr/share/nginx/html
     ports:
       - "${WEB_PUB_PORT?:err}:80"
+    depends_on:
+      - php-fpm
 
 
 #  mail:
