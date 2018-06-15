@@ -5,7 +5,7 @@
 1. `mkdir html` ; setup oro code in **html/oroapp** (clone oro git to this directory)
 1. `docker-compose up`
 1. `./bash.sh`
-1. inside php-fpm container and with oro user, follow instructions from here https://oroinc.com/b2b-ecommerce/doc/1.6/install-upgrade/installation-quick-start-dev/commerce-crm#get-application-source-code 
+1. inside php-fpm container and with oro user, follow instructions from here https://oroinc.com/b2b-ecommerce/doc/1.6/install-upgrade/installation-quick-start-dev/commerce-crm#install-application-dependencies
 
 Mysql connection: host: mysql-db-host / db: oro / user: oro_user / pwd: P@ssword123 . To connect to mysql, run a bash in mysql container and use mysql commandline client. Root password: mysql.
 
