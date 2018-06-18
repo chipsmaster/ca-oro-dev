@@ -13,14 +13,14 @@ services:
         aliases:
           - mysql-db-host
 
-  php-fpm:
+  php:
     build:
-      context: ./php-fpm
+      context: ./php
       args:
         ORO_USER_ID: "${HOST_USER_ID:?err}"
         ORO_USER_GROUP_ID: "${HOST_USER_GROUP_ID:?err}"
     volumes:
-      - ./html:/usr/share/nginx/html
+      - ./www:/var/www
       - web-composer-cache:/home/oro/.composer
     ports:
       - "${WEBSOCKET_PUB_PORT?:err}:8080"
@@ -29,6 +29,13 @@ services:
         aliases:
           - php-fpm-host
 
+  mail:
+    image: mailhog/mailhog
+    networks:
+      default:
+        aliases:
+          - mailhog-host
+    
   nginx:
     build:
       context: ./nginx
@@ -36,20 +43,14 @@ services:
         ORO_USER_ID: "${HOST_USER_ID:?err}"
         ORO_USER_GROUP_ID: "${HOST_USER_GROUP_ID:?err}"
     volumes:
-      - ./html:/usr/share/nginx/html
+      - ./www:/var/www
     ports:
       - "${WEB_PUB_PORT?:err}:80"
     depends_on:
-      - php-fpm
+      - php
+      - mail
 
 
-#  mail:
-#    image: mailhog/mailhog
-#    networks:
-#      default:
-#        aliases:
-#          - mailhog-host
-    
 
 volumes:
   mysql:

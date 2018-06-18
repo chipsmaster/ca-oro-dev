@@ -19,11 +19,13 @@ RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" &&
 
 RUN groupadd --gid $ORO_USER_GROUP_ID oro \
         && useradd --uid $ORO_USER_ID --gid $ORO_USER_GROUP_ID --create-home oro \
+        && echo "cd /var/www/oroapp" >> /home/oro/.bashrc \
         && mkdir /home/oro/.composer && chown oro.oro /home/oro/.composer
 
+# Required to run php-fpm manually apparently
 RUN mkdir /run/php-fpm
 
-COPY www.conf /etc/php-fpm.d/
-COPY additional-php.ini /etc/php.d/50-custom-additional.ini
+# All conf
+COPY etc.additional /etc/
 
-CMD [ "/usr/sbin/php-fpm", "--nodaemonize" ]
+CMD [ "/usr/sbin/php-fpm", "--nodaemonize", "--force-stderr" ]

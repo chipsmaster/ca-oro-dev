@@ -1,17 +1,34 @@
 # ca-oro-dev
 
 1. create **.env** from **.env.sample** (put your user id / group id)
-1. add `127.0.1.1	ca-oro-dev.localhost` to **/etc/hosts**
-1. `mkdir html` ; setup oro code in **html/oroapp** (clone oro git to this directory)
+1. add `127.0.1.1       ca-oro-dev.localhost mailhog.ca-oro-dev.localhost` to **/etc/hosts**
+1. `mkdir www` ; setup oro code in **www/oroapp** (clone oro git to this directory)
 1. `docker-compose up`
-1. `./bash.sh`
-1. inside php-fpm container and with oro user, follow instructions from here https://oroinc.com/b2b-ecommerce/doc/1.6/install-upgrade/installation-quick-start-dev/commerce-crm#install-application-dependencies
+1. `./bash.sh` to get inside php-fpm container with oro user (it would be both administrative and runtime user for oro)
+1. follow instructions from here https://oroinc.com/b2b-ecommerce/doc/1.6/install-upgrade/installation-quick-start-dev/commerce-crm#install-application-dependencies
 
-Mysql connection: host: mysql-db-host / db: oro / user: oro_user / pwd: P@ssword123 . To connect to mysql, run a bash in mysql container and use mysql commandline client. Root password: mysql.
+Mysql configuration:
+* host: mysql-db-host
+* db: oro
+* user: oro_user
+* pwd:P@ssword123
 
-Start additional required services with `./services.sh`
+To connect to mysql, run a bash in mysql container and use mysql commandline client. Root password: mysql.
 
-Run `./cron.sh` manually when needed
+Smtp configuration:
+* mailer_transport: smtp
+* mailer_host: mailhog-host
+* mailer_port: 1025
+
+Run manually additional required services when needed:
+* `./message-consumer.sh`
+* `./websocket-server.sh`
+* `./cron.sh`
+
+Urls:
+* Oro dev: http://ca-oro-dev.localhost/app_dev.php
+* Oro: http://ca-oro-dev.localhost/
+* Mailhog: http://mailhog.ca-oro-dev.localhost/
 
 
 To use debugger:
