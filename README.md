@@ -11,7 +11,7 @@ Mysql configuration:
 * host: mysql-db-host
 * db: oro
 * user: oro_user
-* pwd:P@ssword123
+* pwd: P@ssword123
 
 To connect to mysql, run a bash in mysql container and use mysql commandline client. Root password: mysql.
 

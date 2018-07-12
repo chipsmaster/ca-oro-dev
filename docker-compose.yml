@@ -8,6 +8,8 @@ services:
       - mysql:/var/lib/mysql
     environment:
       MYSQL_ROOT_PASSWORD: mysql
+    ports:
+      - 3306:3306
     networks:
       default:
         aliases:

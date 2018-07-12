@@ -25,6 +25,8 @@ RUN groupadd --gid $ORO_USER_GROUP_ID oro \
 # Required to run php-fpm manually apparently
 RUN mkdir /run/php-fpm
 
+COPY bin.additional /usr/local/bin/
+
 # All conf
 COPY etc.additional /etc/
 
