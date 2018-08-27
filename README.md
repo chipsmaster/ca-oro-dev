@@ -1,11 +1,29 @@
 # ca-oro-dev
 
+Stack for orocommerce CE 3.0
+
 1. create **.env** from **.env.sample** (put your user id / group id)
 1. add `127.0.1.1       ca-oro-dev.localhost mailhog.ca-oro-dev.localhost` to **/etc/hosts**
-1. `mkdir www` ; setup oro code in **www/oroapp** (clone oro git to this directory)
+1. setup oro code in **www/oroapp** 
+	* `mkdir www`
+	* clone oro git to this directory : `git clone -b 3.0 https://github.com/oroinc/orocommerce-application.git oroapp`
+	* create/overwrite parameters.yml and other files specific to this installation : `cp -rv oro/* www/oroapp/`)
 1. `docker-compose up`
-1. `./bash.sh` to get inside php-fpm container with oro user (it would be both administrative and runtime user for oro)
-1. follow instructions from here https://oroinc.com/b2b-ecommerce/doc/1.6/install-upgrade/installation-quick-start-dev/commerce-crm#install-application-dependencies
+1. install oro
+	* (optional) disable xdebug for command line to speed up installation : `./xdebug-disable.sh`
+	* `./bash.sh` to get inside php-fpm container with oro user (it would be both administrative and runtime user for oro)
+	* `composer install --prefer-dist`
+	* launch `oro-install.sh` or install oro manually
+
+Run manually additional required services when needed:
+* `./message-consumer.sh`
+* `./websocket-server.sh`
+* `./cron.sh`
+
+Urls:
+* Oro dev: http://ca-oro-dev.localhost/index_dev.php
+* Oro: http://ca-oro-dev.localhost/
+* Mailhog: http://mailhog.ca-oro-dev.localhost/
 
 Mysql configuration:
 * host: mysql-db-host
@@ -19,16 +37,6 @@ Smtp configuration:
 * mailer_transport: smtp
 * mailer_host: mailhog-host
 * mailer_port: 1025
-
-Run manually additional required services when needed:
-* `./message-consumer.sh`
-* `./websocket-server.sh`
-* `./cron.sh`
-
-Urls:
-* Oro dev: http://ca-oro-dev.localhost/app_dev.php
-* Oro: http://ca-oro-dev.localhost/
-* Mailhog: http://mailhog.ca-oro-dev.localhost/
 
 
 To use debugger:
